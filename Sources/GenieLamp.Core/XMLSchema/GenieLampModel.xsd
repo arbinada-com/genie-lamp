@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<xs:schema
+	targetNamespace="http://www.arbinada.com/GenieLampModel/1/0"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:glm="http://www.arbinada.com/GenieLampModel/1/0"
+	elementFormDefault="qualified">
+
+	
+<xs:attributeGroup name="ModelObjectAttributes">
+	<xs:attribute name="schema" type="xs:string" use="optional" />
+	<xs:attribute name="name" type="xs:string" use="required" />
+</xs:attributeGroup>
+
+<xs:element name="Model">
+	<xs:complexType>
+	    <xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Type" type="glm:TType" />
+			<xs:element name="Entity" type="glm:TEntity" />
+			<xs:element name="Relation" type="glm:TRelation" />
+			<xs:element name="Enumeration" type="glm:TEnumeration" />
+			<xs:element name="Generator" type="glm:TGenerator" />
+			<xs:element name="Index" type="glm:TEntityIndex" />
+			<xs:element name="SpellHint" type="glm:TSpellHint" />
+		</xs:choice>
+		<xs:attribute name="defaultSchema" type="xs:string" use="required"/>
+		<xs:attribute name="defaultPersistentSchema" type="xs:string" use="optional"/>
+		<xs:attribute name="title" type="xs:string" use="optional"/>
+	</xs:complexType>
+</xs:element>
+
+<xs:complexType name="TDoc">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Label">
+			<xs:complexType mixed="true">
+				<xs:attribute name="lang" use="optional" />
+			</xs:complexType>
+		</xs:element>
+        <xs:element name="Text">
+			<xs:complexType mixed="true">
+    			<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="b" />
+					<xs:element name="i" />
+					<xs:element name="u" />
+					<xs:element name="a">
+						<xs:complexType mixed="true">
+							<xs:attribute name="href" type="xs:string" use="required"/>
+							<!-- Error "xs:anyURI" on Mono 2.10.8.1 (Debian 2.10.8.1-1~dhx1~lucid1): Failed to convert attribute value to type anyURI -->
+						</xs:complexType>
+					</xs:element>
+				</xs:choice>
+				<xs:attribute name="lang" use="optional" />
+			</xs:complexType>
+		</xs:element>
+    </xs:choice>
+</xs:complexType>
+
+<xs:complexType name="TSpellHint" mixed="true">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Define" type="glm:TSpellHintDefine" />
+        <xs:element name="Param" type="glm:TSpellHintParam" />
+        <xs:element name="Property" type="glm:TSpellHintProperty" />
+    </xs:choice>
+	<xs:attribute name="genie" type="xs:string" use="required"/>
+	<xs:attribute name="name" type="xs:string" use="optional" default="SpellHint" />
+	<xs:attribute name="targetVersion" type="xs:string" use="optional" default="*" />
+	<xs:attribute name="targetType" type="xs:string" use="required"/>
+	<xs:attribute name="targetName" type="xs:string" use="optional" default="*" />
+</xs:complexType>
+
+
+<xs:complexType name="TSpellHintDefine" mixed="true">
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="value" type="xs:string" use="required" />
+</xs:complexType>
+
+<xs:complexType name="TSpellHintParam" mixed="true">
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="value" type="xs:string" use="optional" default="*"/>
+</xs:complexType>
+
+<xs:complexType name="TSpellHintProperty" mixed="true">
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="value" type="xs:string" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="TEnumeration">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+		<xs:element name="Item" minOccurs="1">
+			<xs:complexType>
+				<xs:all>
+					<xs:element name="Doc" type="glm:TDoc" minOccurs="0" />
+				</xs:all>
+				<xs:attribute name="name" type="xs:string" use="required"/>
+				<xs:attribute name="value" type="xs:integer" use="optional"/>
+				<xs:attribute name="default" type="xs:boolean" use="optional"/>
+				<xs:attributeGroup ref="glm:PersistenceDefinition"/>
+			</xs:complexType>
+		</xs:element>
+		<xs:element name="Doc" type="glm:TDoc" minOccurs="0" />
+		<xs:element name="SpellHintParam" type="glm:TSpellHintParam" />
+	</xs:choice>
+	<xs:attributeGroup ref="glm:ModelObjectAttributes"/>
+	<xs:attributeGroup ref="glm:PersistenceDefinition"/>
+</xs:complexType>
+	
+	
+<xs:attributeGroup name="PersistenceDefinition">
+	<xs:attribute name="persisted" type="xs:boolean" use="optional" default="true" />
+	<xs:attribute name="persistentSchema" type="xs:string" use="optional"/>
+	<xs:attribute name="persistentName" type="xs:string" use="optional"/>
+	<xs:attribute name="persistentType" type="xs:string" use="optional"/>
+</xs:attributeGroup>
+
+
+<xs:complexType name="TEntity">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+		<xs:element name="Doc" type="glm:TDoc" minOccurs="0" />
+		<xs:element name="Attribute" type="glm:TEntityAttribute" minOccurs="1" />
+		<xs:element name="PrimaryId" type="glm:TEntityConstraint" minOccurs="1" />
+		<xs:element name="UniqueId" type="glm:TEntityConstraint" minOccurs="0" />
+		<xs:element name="Index" type="glm:TEntityIndex" minOccurs="0" />
+		<xs:element name="Generator" type="glm:TGenerator" minOccurs="0" maxOccurs="1" />
+		<xs:element name="EventHandler" type="glm:TEntityEventHandler" />
+		<xs:element name="Operation" type="glm:TEntityOperation" />
+		<xs:element name="SpellHintParam" type="glm:TSpellHintParam" />
+	</xs:choice>
+	<xs:attributeGroup ref="glm:ModelObjectAttributes"/>
+	<xs:attribute name="supertypeSchema" type="xs:string" use="optional"/>
+	<xs:attribute name="supertype" type="xs:string" use="optional"/>
+	<xs:attributeGroup ref="glm:PersistenceDefinition"/>
+</xs:complexType>
+
+	
+<xs:attributeGroup name="TypeDefinition">
+	<xs:attribute name="length" type="xs:integer" use="optional"/>
+	<xs:attribute name="precision" type="xs:integer" use="optional"/>
+	<xs:attribute name="fixed" type="xs:boolean" use="optional" />
+	<xs:attribute name="required" type="xs:boolean" use="optional" />
+	<xs:attribute name="collectionType" type="glm:TCollectionType" use="optional" default="none" />
+</xs:attributeGroup>
+
+<xs:simpleType name="TCollectionType">
+    <xs:restriction base="xs:string">
+        <xs:enumeration value="none" />
+        <xs:enumeration value="array" />
+        <xs:enumeration value="list" />
+    </xs:restriction>
+</xs:simpleType>
+
+<xs:attributeGroup name="GeneratorReference">
+	<xs:attribute name="generatorSchema" type="xs:string" use="optional"/>
+	<xs:attribute name="generator" type="xs:string" use="optional"/>
+</xs:attributeGroup>
+	
+<xs:complexType name="TEntityAttribute">
+	<xs:choice minOccurs="0" maxOccurs="unbounded">
+		<xs:element name="Doc" type="glm:TDoc" minOccurs="0" />
+		<xs:element name="SpellHintParam" type="glm:TSpellHintParam" />
+	</xs:choice>
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="typeSchema" type="xs:string" use="optional"/>
+	<xs:attribute name="type" type="xs:string" use="required"/>
+	<xs:attribute name="readonly" type="xs:boolean" use="optional" default="false"/>
+	<xs:attribute name="primaryid" type="xs:boolean" use="optional" default="false"/>
+	<xs:attribute name="autoincrement" type="xs:boolean" use="optional" default="false"/>
+	<xs:attribute name="maxValue" type="xs:decimal" use="optional" />
+	<xs:attribute name="uniqueid" type="xs:boolean" use="optional" default="false"/>
+	<xs:attribute name="default" type="xs:string" use="optional" />
+	<xs:attributeGroup ref="glm:GeneratorReference"/>
+	<xs:attributeGroup ref="glm:TypeDefinition"/>
+	<xs:attributeGroup ref="glm:PersistenceDefinition"/>
+</xs:complexType>
+
+	
+<xs:simpleType name="TGeneratorType">
+    <xs:restriction base="xs:string">
+        <xs:enumeration value="sequence" />
+        <xs:enumeration value="guid" />
+        <xs:enumeration value="guid.hex" />
+    </xs:restriction>
+</xs:simpleType>
+
+<xs:complexType name="TGenerator">
+	<xs:choice minOccurs="0" maxOccurs="unbounded">
+		<xs:element name="SpellHintParam" type="glm:TSpellHintParam" />
+	</xs:choice>
+	<xs:attribute name="name" type="xs:string" use="required"/>
+	<xs:attribute name="type" type="glm:TGeneratorType" use="required"/>
+	<xs:attribute name="startWith" type="xs:decimal" use="optional" default="1" />
+	<xs:attribute name="increment" type="xs:integer" use="optional" default="1" />
+	<xs:attribute name="maxValue" type="xs:decimal" use="optional" />
+	<xs:attributeGroup ref="glm:PersistenceDefinition"/>
+</xs:complexType>
+
+<!-- Event handlers, validators -->
+<xs:complexType name="TEntityEventHandler">
+	<xs:attribute name="type" type="glm:TEntityEventHandlerType" use="required" />
+</xs:complexType>
+
+<xs:simpleType name="TEntityEventHandlerType">
+    <xs:restriction base="xs:string">
+        <xs:enumeration value="validate" />
+        <xs:enumeration value="save" />
+        <xs:enumeration value="delete" />
+        <xs:enumeration value="flush" />
+    </xs:restriction>
+</xs:simpleType>
+
+<!-- Entity operations -->
+<xs:complexType name="TEntityOperation">
+	<xs:choice minOccurs="0" maxOccurs="unbounded">
+		<xs:element name="Param" type="glm:TEntityOperationParam" />
+		<xs:element name="Returns" type="glm:TEntityOperationReturn" />
+		<xs:element name="Doc" type="glm:TDoc" minOccurs="0" />
+	</xs:choice>
+	<xs:attribute name="name" type="xs:string" use="required" />
+	<xs:attribute name="access" type="glm:TEntityOperationAccess" use="optional" default="public" />
+</xs:complexType>
+
+<xs:attributeGroup name="EntityOperationParamGroup">
+	<xs:attribute name="type" type="xs:string" use="required" />
+	<xs:attribute name="raw" type="xs:boolean" use="optional" default="false" />
+	<xs:attribute name="ref" type="xs:boolean" use="optional" default="false" />
+	<xs:attribute name="out" type="xs:boolean" use="optional" default="false" />
+</xs:attributeGroup>
+
+<xs:complexType name="TEntityOperationParam">
+	<xs:attribute name="name" type="xs:string" use="required" />
+	<xs:attributeGroup ref="glm:EntityOperationParamGroup"/>
+	<xs:attributeGroup ref="glm:TypeDefinition"/>
+</xs:complexType>
+
+<xs:complexType name="TEntityOperationReturn">
+	<xs:attributeGroup ref="glm:EntityOperationParamGroup"/>
+	<xs:attributeGroup ref="glm:TypeDefinition"/>
+</xs:complexType>
+
+<xs:simpleType name="TEntityOperationAccess">
+    <xs:restriction base="xs:string">
+        <xs:enumeration value="internal" />
+        <xs:enumeration value="public" />
+    </xs:restriction>
+</xs:simpleType>
+
+
+<!-- Entity constraints -->
+<xs:simpleType name="TEntityConstraintType">
+    <xs:restriction base="xs:string">
+        <xs:enumeration value="PrimaryId">
+			<xs:annotation>
+				<xs:documentation>Entity idetifier attribute(s). Similar to "primary key" in relational model or "object id" in object model.</xs:documentation>
+			</xs:annotation>
+		</xs:enumeration>
+        <xs:enumeration value="UniqueId">
+			<xs:annotation>
+				<xs:documentation>Entity unique values attribute(s). Similar to "key" in relational/object models.</xs:documentation>
+			</xs:annotation>
+		</xs:enumeration>
+    </xs:restriction>
+</xs:simpleType>
+
+<xs:complexType name="TEntityConstraint">
+	<xs:choice minOccurs="1" maxOccurs="unbounded">
+		<xs:element name="Attribute" type="glm:TEntityAttribute" minOccurs="0" />
+		<xs:element name="OnAttribute">
+			<xs:annotation>
+				<xs:documentation>The name of entity attribute or of relation implementing atribute (M:1, 1:1 only)</xs:documentation>
+			</xs:annotation>
+			<xs:complexType>
+				<xs:attribute name="name" type="xs:string" use="required"/>
+			</xs:complexType>
+		</xs:element>
+		<xs:element name="SpellHintParam" type="glm:TSpellHintParam" />
+		<xs:element name="Doc" type="glm:TDoc" minOccurs="0" />
+	</xs:choice>
+	<xs:attribute name="type" type="glm:TEntityConstraintType" use="optional"/>
+	<xs:attribute name="name" type="xs:string" use="optional"/>
+	<xs:attributeGroup ref="glm:GeneratorReference"/>
+	<xs:attributeGroup ref="glm:PersistenceDefinition"/>
+</xs:complexType>
+
+<xs:simpleType name="TOrder">
+    <xs:restriction base="xs:string">
+        <xs:enumeration value="asc" />
+        <xs:enumeration value="desc" />
+    </xs:restriction>
+</xs:simpleType>
+
+<xs:complexType name="TEntityIndex">
+	<xs:choice minOccurs="1" maxOccurs="unbounded">
+		<xs:element name="OnAttribute" minOccurs="1">
+			<xs:annotation>
+				<xs:documentation>The name of entity attribute or of relation implementing atribute (M:1, 1:1 only)</xs:documentation>
+			</xs:annotation>
+			<xs:complexType>
+				<xs:attribute name="name" type="xs:string" use="required"/>
+				<xs:attribute name="order" type="glm:TOrder" use="optional" default="asc"/>
+			</xs:complexType>
+		</xs:element>
+		<xs:element name="SpellHintParam" type="glm:TSpellHintParam" />
+		<xs:element name="Doc" type="glm:TDoc" minOccurs="0" />
+	</xs:choice>
+	<xs:attribute name="unique" type="xs:boolean" use="optional" default="false" />
+	<xs:attribute name="entitySchema" type="xs:string" use="optional"/>
+	<xs:attribute name="entityName" type="xs:string" use="optional"/>
+	<xs:attribute name="name" type="xs:string" use="optional"/>
+</xs:complexType>
+
+<!-- Relations -->	
+<xs:simpleType name="TCardinality">
+    <xs:restriction base="xs:string">
+        <xs:enumeration value="1:1" />
+        <xs:enumeration value="1:M" />
+        <xs:enumeration value="M:1" />
+        <xs:enumeration value="M:M" />
+    </xs:restriction>
+</xs:simpleType>
+	
+<xs:complexType name="TRelation">
+    <xs:choice minOccurs="1" maxOccurs="unbounded">
+		<xs:element name="Doc" type="glm:TDoc" />
+		<xs:element name="AttributeMatch" type="glm:TRelationAttributeMatch" />
+		<xs:element name="SpellHintParam" type="glm:TSpellHintParam" />
+	</xs:choice>
+	<xs:attribute name="name" type="xs:string" use="required">
+		<xs:annotation>
+			<xs:documentation>The name of attribute implementing relation.
+				Should be like "MyAttribute" for M:1, 1:1 or "MyAttribList" for M:M, 1:M.
+				Same for name2 in otherwise</xs:documentation>
+		</xs:annotation>
+	</xs:attribute>
+	<xs:attribute name="schema" type="xs:string" use="optional"/>
+	<xs:attribute name="entity" type="xs:string" use="required"/>
+	<xs:attribute name="navigate" type="xs:boolean" use="optional" default="true"/>
+	<xs:attribute name="name2" type="xs:string" use="optional" />
+	<xs:attribute name="schema2" type="xs:string" use="optional"/>
+	<xs:attribute name="entity2" type="xs:string" use="required"/>
+	<xs:attribute name="navigate2" type="xs:boolean" use="optional" default="true"/>
+	<xs:attribute name="cardinality" type="glm:TCardinality" use="required"/>
+	<xs:attribute name="required" type="xs:boolean" use="optional" default="true"/>
+	<xs:attribute name="cascade" type="glm:TRelationCascade" use="optional" default="none" />
+	<xs:attributeGroup ref="glm:PersistenceDefinition"/>
+	<xs:attribute name="indexName" type="xs:string" use="optional"/>
+</xs:complexType>
+	
+<xs:complexType name="TRelationAttributeMatch">
+	<xs:attribute name="attribute" type="xs:string" use="required"/>
+	<xs:attribute name="attribute2" type="xs:string" use="required"/>
+</xs:complexType>		
+	
+<xs:simpleType name="TRelationCascade">
+    <xs:restriction base="xs:string">
+        <xs:enumeration value="none" />
+        <xs:enumeration value="all" />
+        <xs:enumeration value="delete" />
+        <xs:enumeration value="update" />
+	</xs:restriction>
+</xs:simpleType>
+
+<!-- Types -->	
+<xs:complexType name="TType" >
+	<xs:sequence minOccurs="0">
+		<xs:element name="Doc" type="glm:TDoc" />
+	</xs:sequence>
+	<xs:attributeGroup ref="glm:ModelObjectAttributes"/>
+	<xs:attribute name="baseTypeSchema" type="xs:string" use="optional"/>
+	<xs:attribute name="baseType" type="glm:TScalarType" use="required"/>
+	<xs:attributeGroup ref="glm:TypeDefinition"/>
+</xs:complexType>
+
+	
+<xs:simpleType name="TScalarType">
+    <xs:restriction base="xs:string">
+        <xs:enumeration value="void" />
+		<!-- Numeric types -->
+        <xs:enumeration value="byte" />
+        <xs:enumeration value="currency" />
+        <xs:enumeration value="decimal" />
+        <xs:enumeration value="float" />
+        <xs:enumeration value="int" />
+        <xs:enumeration value="integer" />
+        <xs:enumeration value="shortint" />
+		<!-- Date & time types -->
+        <xs:enumeration value="date" />
+        <xs:enumeration value="time" />
+        <xs:enumeration value="datetime" />
+		<!-- Character types -->
+        <xs:enumeration value="string" /> <!-- unicode string -->
+        <xs:enumeration value="ansistring" /> <!-- single byte string -->
+        <xs:enumeration value="char" />
+        <xs:enumeration value="nchar" /> <!-- unicode char -->
+        <xs:enumeration value="varchar" /> <!-- ansistring -->
+        <xs:enumeration value="nvarchar" /> <!-- string -->
+        <xs:enumeration value="ntext" /> <!-- string length="max" -->
+		<!-- Other types -->
+        <xs:enumeration value="boolean" />
+        <xs:enumeration value="binary" />
+        <xs:enumeration value="blob" /> <!-- binary length="max" -->
+        <xs:enumeration value="uuid" />
+    </xs:restriction>
+</xs:simpleType>
+
+	
+</xs:schema>

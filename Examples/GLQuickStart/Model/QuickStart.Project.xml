@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GenieLamp xmlns="http://www.arbinada.com/GenieLamp/1/0"
+		   project="QuickStart"
+		   version="1.0">
+
+	<ImportModel fileName="QuickStart.xml" />
+	
+	<Genie  name="SqlServer"
+            type="GenieLamp.Genies.SqlServer.SqlServerGenie"
+            assembly="GenieLamp.Genies.SqlServer"
+            active="true"
+            outDir="%PROJECT_DIR%/../SQL/SqlServer-%TARGET_VERSION%"
+            outFileName="%PROJECT_NAME%.sql"
+            updateDatabase="true"
+            targetVersion="2008">
+		<Param name="Database.Create" value="true" />
+		<Param name="Database.Name" value="QuickStartDB" />
+		<Param name="Schemas.Create" value="false" />
+		<Param name="UpdateDatabase.Utility" value="sqlcmd" />
+		<Param name="UpdateDatabase.Arguments" value="-b -S localhost -i %FILE_NAME%" />
+	</Genie>
+
+	<Genie name="NHibernate"
+           type="GenieLamp.Genies.NHibernate.NHibernateGenie"
+           assembly="GenieLamp.Genies.NHibernate"
+           active="true"
+           outDir="%PROJECT_DIR%/../Domain"
+           outFileName="%PROJECT_NAME%.Domain.cs"
+           targetVersion="*">
+		<Param name="TargetAssemblyName" value="Domain" />
+	</Genie>
+
+	<Genie	name="ServiceStack Services"
+			  type="GenieLamp.Genies.ServicesLayer.ServiceStack.ServicesGenie"
+			  assembly="GenieLamp.Genies.ServicesLayer"
+			  active="true"
+			  outDir="%PROJECT_DIR%/../Services"
+			  targetVersion="*">
+	</Genie>
+
+	<Genie	name="ServiceStack Services Interfaces"
+			  type="GenieLamp.Genies.ServicesLayer.ServiceStack.ServicesInterfacesGenie"
+			  assembly="GenieLamp.Genies.ServicesLayer"
+			  active="true"
+			  outDir="%PROJECT_DIR%/../Services.Interfaces"
+			  targetVersion="*">
+	</Genie>
+
+
+	<Configuration>
+		<!-- Layers configurations -->
+		<Layer name="Persistence">
+			<NamingConvention style="lowercase" maxLength="128">
+				<Param name="PrimaryKey.ColumnTemplate" value="ID_%TABLE%" />
+				<Param name="PrimaryKey.ConstraintTemplate" value="PK_%TABLE%" />
+				<Param name="Unique.ConstraintTemplate" value="UC_%TABLE%_%COLUMNS%%COUNTER%" />
+				<Param name="ForeignKey.ColumnTemplate" value="ID_%REF_TABLE%" />
+				<Param name="ForeignKey.ConstraintTemplate" value="FK_%TABLE%_%REF_TABLE%_%COLUMNS%_%COLUMNS_HASH%" />
+				<Param name="Index.Template" value="IX_%TABLE%_%COLUMNS%_%COLUMNS_HASH%" />
+			</NamingConvention>
+			<Param name="ForeignKey.CreateIndex" value="true" />
+		</Layer>
+
+		<Layer name="Domain">
+			<Param name="BaseNamespace" value="GenieLamp.Examples.%PROJECT_NAME%" />
+		</Layer>
+		
+		<Layer name="Services">
+			<Param name="BaseNamespace" value="GenieLamp.Examples.%PROJECT_NAME%" />
+		</Layer>
+	</Configuration>
+</GenieLamp>

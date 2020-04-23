@@ -1,0 +1,8 @@
+@echo off
+
+set PROJECTS_ROOT=D:\Projects\genie-lamp
+
+set MONO_HOME=C:\Program Files\Mono-2.10.5
+set MONO_BIN=%MONO_HOME%\bin
+
+set ZIP_HOME=C:\Program Files\7-Zip

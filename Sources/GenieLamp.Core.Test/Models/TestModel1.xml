@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Model	xmlns="http://www.arbinada.com/GenieLampModel/1/0"
+		defaultSchema="Warehouse"
+		defaultPersistentSchema="">
+	
+	<Type name="TObjectId" baseType="int" />
+	<Type name="TProductReference" baseType="string" length="10" required="true" />
+	<Type name="TCaption" baseType="string" length="100" required="false" />
+	<Type name="TPhone" baseType="string" length="20" required="false" />
+	<Type name="TEmail" baseType="string" length="80" required="false" />
+
+	<Generator name="GenGlobal" type="sequence" persistentName="gen_global" />
+
+	<Entity name="MyEntity">
+		<Attribute name="Id" type="TObjectId" primaryid="true" generator="GenGlobal" />
+		<Attribute name="Name" type="string" length="64" uniqueid="true" />
+	</Entity>
+
+	<Entity name="MyEntityEx">
+		<Attribute name="Id" type="TObjectId" primaryid="true" generator="GenGlobal" />
+		<Attribute name="MyEntityId" type="TObjectId" uniqueid="true" />
+		<Attribute name="Caption" type="TCaption" />
+	</Entity>
+	<Relation name="Extension" entity="MyEntity" name2="MyEntity" entity2="MyEntityEx" required="false" cardinality="1:1">
+		<AttributeMatch attribute="Id" attribute2="MyEntityId" />
+	</Relation>
+
+	<Entity name="ProductType">
+		<Attribute name="Id" type="TObjectId" primaryid="true" generator="GenGlobal" />
+		<Attribute name="Type" type="MyEntity" />
+		<UniqueId persistentName="IX_CUSTOM_PRODUCT_TYPE">
+			<Attribute name="Code" type="string" length="3" />
+		</UniqueId>
+		<Attribute name="Name" type="TCaption" />
+		<Attribute name="ParentId" type="TObjectId" required="false" persistentName="id_parent" />
+	</Entity>
+	<Relation name="ProductSubtypes" entity="ProductType" name2="Parent" entity2="ProductType" required="false" cardinality="1:M">
+		<AttributeMatch attribute="Id" attribute2="ParentId" />
+	</Relation>
+
+	<Entity name="Product">
+		<Attribute name="Id" type="TObjectId" primaryid="true" generator="GenGlobal" />
+		<Attribute name="RefCode" type="TProductReference" uniqueid="true" />
+		<Attribute name="Caption" type="TCaption" />
+		<Attribute name="Type" type="ProductType" required="false" />
+	</Entity>
+
+	<Entity name="StoreType">
+		<Attribute name="Id" type="TObjectId" primaryid="true" generator="GenGlobal" />
+		<Attribute name="Name" type="string" length="3" uniqueid="true" />
+		<Attribute name="Caption" type="TCaption" />
+	</Entity>
+
+	<Entity name="Store">
+		<Attribute name="Id" type="TObjectId" primaryid="true" generator="GenGlobal" />
+		<Attribute name="Code" type="string" length="15" uniqueid="true" />
+		<Attribute name="Caption" type="TCaption" required="false" />
+		<Attribute name="StoreTypeId" type="TObjectId" required="false" />
+	</Entity>
+	<Relation name="StoreType" entity="Store" name2="Stores" entity2="StoreType" required="false" cardinality="M:1">
+		<AttributeMatch attribute="StoreTypeId" attribute2="Id" />
+	</Relation>
+
+	<Entity name="Contractor">
+		<Attribute name="Id" type="TObjectId" primaryid="true" generator="GenGlobal" />
+		<Attribute name="Type" type="MyEntity" />
+		<Attribute name="Name" type="TCaption" uniqueid="true" />
+		<Attribute name="Address" type="string" length="255" required="false" />
+		<Attribute name="Phone" type="TPhone" uniqueid="true" />
+		<Attribute name="Email" type="TEmail" />
+		<SpellHintParam name="Size" value="Big" />
+	</Entity>
+
+	<Entity name="Partner" supertype="Contractor">
+		<Attribute name="Since" type="datetime" />
+	</Entity>
+
+	<Enumeration name="State">
+		<Item name="InProgress" value="0" />
+		<Item name="Validated" />
+	</Enumeration>
+
+
+	<Entity name="StoreDoc">
+		<Attribute name="Id" type="TObjectId" primaryid="true" autoincrement="true" />
+		<Attribute name="RefNum" type="string" length="16" uniqueid="false" />
+		<Attribute name="Created" type="datetime" default="current" />
+		<Attribute name="Name" type="TCaption" required="false" />
+		<SpellHintParam name="SizeBig" />
+		<Index unique="true">
+			<OnAttribute name="RefNum" order="desc" />
+		</Index>
+		<Index>
+			<OnAttribute name="Name" />
+		</Index>
+	</Entity>
+	<Index entityName="StoreDoc">
+		<OnAttribute name="Created" />
+		<OnAttribute name="Name" />
+	</Index>
+
+	<Entity name="StoreDocLine">
+		<PrimaryId>
+			<Attribute name="StoreDocId" type="TObjectId" />
+			<Attribute name="Position" type="integer" />
+		</PrimaryId>
+		<Attribute name="Product" type="Product" />
+		<Attribute name="Quantity" type="int" required="true" />
+	</Entity>
+	<Relation name="Doc" entity="StoreDocLine" name2="Lines" entity2="StoreDoc" cardinality="M:1" persistentName="FK_CUSTOM_NAME" indexName="IX_CUSTOM_NAME">
+		<AttributeMatch attribute="StoreDocId" attribute2="Id" />
+	</Relation>
+
+	<Enumeration name="Direction">
+		<Item name="Income" value="0" />
+		<Item name="Outcome" />
+	</Enumeration>
+
+	<Entity name="StoreTransaction">
+		<Generator name="GenTransaction" type="sequence" />
+		<Attribute name="Id" type="TObjectId" primaryid="true" generator="GenTransaction" />
+		<Attribute name="TxDate" type="datetime" default="current" />
+		<Attribute name="Direction" type="Direction" />
+		<Attribute name="State" type="State" />
+		<Attribute name="Store" type="Store" />
+		<Attribute name="Product" type="Product" />
+		<Attribute name="SupplierId" type="TObjectId" persistentName="id_supplier" />
+		<Attribute name="Customer" type="Contractor" persistentName="id_customer" />
+		<Attribute name="Quantity" type="int" required="true" />
+		<SpellHintParam name="SizeBigImg" />
+	</Entity>
+	<Relation name="Supplier" entity="StoreTransaction" name2="Transactions" entity2="Contractor" cardinality="M:1">
+		<AttributeMatch attribute="SupplierId" attribute2="Id" />
+	</Relation>
+</Model>
+

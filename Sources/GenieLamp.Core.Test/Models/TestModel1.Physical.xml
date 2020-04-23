@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Model	xmlns="http://www.arbinada.com/GenieLampModel/1/0"
+		defaultSchema="Warehouse"
+		defaultPersistentSchema="test">
+
+	<SpellHint genie="SQLServer" targetType="Entity" targetName="*">
+		<Define name="%FILEGROUP%" value="MYFILEGROUP" />
+		<Param name="SizeBigImg">ON %FILEGROUP% TEXTIMAGE_ON(%FILEGROUP%_TI)</Param>
+		<Param name="SizeBig">ON %FILEGROUP%</Param>
+		<Param name="Size" value="Big">ON %FILEGROUP% /*ParamBig*/</Param>
+		<![CDATA[ON DEFAULT]]>
+	</SpellHint>
+
+	<SpellHint genie="SQLServer" targetVersion="2005" targetType="Entity" targetName="*">
+		<Property name="Name1" value="Value1" />
+		<![CDATA[ON STORE_FG]]>
+	</SpellHint>
+</Model>

@@ -1,0 +1,387 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Warehouse.Domain" namespace="Arbinada.GenieLamp.Warehouse">
+  <!--Core.EntityType-->
+  <class name="Arbinada.GenieLamp.Warehouse.Domain.Core.EntityType" table="entity_type" polymorphism="implicit">
+    <id name="Id" access="property" column="id_entity_type">
+      <generator class="native">
+        <param name="sequence">gen_entity_type</param>
+      </generator>
+    </id>
+    <property name="FullName" access="property">
+      <column name="full_name" not-null="true" />
+    </property>
+    <property name="ShortName" access="property">
+      <column name="short_name" not-null="true" />
+    </property>
+    <property name="Description" access="property">
+      <column name="description" not-null="false" />
+    </property>
+  </class>
+  <!--Core.EntityRegistry-->
+  <class name="Arbinada.GenieLamp.Warehouse.Domain.Core.EntityRegistry" table="entity_registry" polymorphism="implicit">
+    <id name="Id" access="property" column="id_entity_registry">
+      <generator class="native">
+        <param name="sequence">gen_entity_registry</param>
+      </generator>
+    </id>
+    <many-to-one name="EntityType" class="Arbinada.GenieLamp.Warehouse.Domain.Core.EntityType" cascade="none">
+      <column name="id_entity_type" not-null="false" />
+    </many-to-one>
+  </class>
+  <!--Warehouse.ExampleOneToOne-->
+  <class name="Arbinada.GenieLamp.Warehouse.Domain.Warehouse.ExampleOneToOne" table="example_one_to_one" polymorphism="implicit">
+    <id name="Id" access="property" column="id_example_one_to_one">
+      <generator class="native">
+        <param name="sequence">gen_example_one_to_one</param>
+      </generator>
+    </id>
+    <version name="Version" column="version" type="int" access="property" />
+    <one-to-one name="Extension" class="Arbinada.GenieLamp.Warehouse.Domain.Warehouse.ExampleOneToOneEx" property-ref="ExampleOneToOne" cascade="none" />
+    <many-to-one name="EntityRegistry" class="Arbinada.GenieLamp.Warehouse.Domain.Core.EntityRegistry" unique="true">
+      <column name="id_entity_registry" not-null="false" />
+    </many-to-one>
+    <property name="Name" access="property">
+      <column name="name" not-null="true" />
+    </property>
+    <property name="CreatedBy" access="property">
+      <column name="created_by" not-null="false" />
+    </property>
+    <property name="CreatedDate" access="property" type="timestamp">
+      <column name="created_date" not-null="false" />
+    </property>
+    <property name="LastModifiedBy" access="property">
+      <column name="last_modified_by" not-null="false" />
+    </property>
+    <property name="LastModifiedDate" access="property" type="timestamp">
+      <column name="last_modified_date" not-null="false" />
+    </property>
+  </class>
+  <!--Warehouse.ExampleOneToOneEx-->
+  <class name="Arbinada.GenieLamp.Warehouse.Domain.Warehouse.ExampleOneToOneEx" table="example_one_to_one_ex" polymorphism="implicit">
+    <id name="Id" access="property" column="id_example_one_to_one_ex">
+      <generator class="native">
+        <param name="sequence">gen_example_one_to_one_ex</param>
+      </generator>
+    </id>
+    <version name="Version" column="version" type="int" access="property" />
+    <many-to-one name="ExampleOneToOne" class="Arbinada.GenieLamp.Warehouse.Domain.Warehouse.ExampleOneToOne" unique="true">
+      <column name="id_example_one_to_one" not-null="true" />
+    </many-to-one>
+    <many-to-one name="EntityRegistry" class="Arbinada.GenieLamp.Warehouse.Domain.Core.EntityRegistry" unique="true">
+      <column name="id_entity_registry" not-null="false" />
+    </many-to-one>
+    <property name="Caption" access="property">
+      <column name="caption" not-null="false" />
+    </property>
+    <property name="CreatedBy" access="property">
+      <column name="created_by" not-null="false" />
+    </property>
+    <property name="CreatedDate" access="property" type="timestamp">
+      <column name="created_date" not-null="false" />
+    </property>
+    <property name="LastModifiedBy" access="property">
+      <column name="last_modified_by" not-null="false" />
+    </property>
+    <property name="LastModifiedDate" access="property" type="timestamp">
+      <column name="last_modified_date" not-null="false" />
+    </property>
+  </class>
+  <!--Warehouse.ProductType-->
+  <class name="Arbinada.GenieLamp.Warehouse.Domain.Warehouse.ProductType" table="product_type" polymorphism="implicit">
+    <id name="Id" access="property" column="id_product_type">
+      <generator class="native">
+        <param name="sequence">gen_product_type</param>
+      </generator>
+    </id>
+    <version name="Version" column="version" type="int" access="property" />
+    <many-to-one name="Parent" class="Arbinada.GenieLamp.Warehouse.Domain.Warehouse.ProductType" cascade="none">
+      <column name="id_parent" not-null="false" />
+    </many-to-one>
+    <set name="ProductSubtypes" table="product_type" inverse="true" lazy="true" cascade="none">
+      <key column="id_parent" />
+      <one-to-many class="Arbinada.GenieLamp.Warehouse.Domain.Warehouse.ProductType" />
+    </set>
+    <many-to-one name="EntityRegistry" class="Arbinada.GenieLamp.Warehouse.Domain.Core.EntityRegistry" unique="true">
+      <column name="id_entity_registry" not-null="false" />
+    </many-to-one>
+    <property name="Code" access="property">
+      <column name="code" not-null="true" />
+    </property>
+    <property name="Name" access="property">
+      <column name="name" not-null="false" />
+    </property>
+    <property name="CreatedBy" access="property">
+      <column name="created_by" not-null="false" />
+    </property>
+    <property name="CreatedDate" access="property" type="timestamp">
+      <column name="created_date" not-null="false" />
+    </property>
+    <property name="LastModifiedBy" access="property">
+      <column name="last_modified_by" not-null="false" />
+    </property>
+    <property name="LastModifiedDate" access="property" type="timestamp">
+      <column name="last_modified_date" not-null="false" />
+    </property>
+  </class>
+  <!--Warehouse.Product-->
+  <class name="Arbinada.GenieLamp.Warehouse.Domain.Warehouse.Product" table="product" polymorphism="implicit">
+    <id name="Id" access="property" column="id_product">
+      <generator class="native">
+        <param name="sequence">gen_product</param>
+      </generator>
+    </id>
+    <version name="Version" column="version" type="int" access="property" />
+    <many-to-one name="Type" class="Arbinada.GenieLamp.Warehouse.Domain.Warehouse.ProductType" cascade="none">
+      <column name="id_product_type" not-null="false" />
+    </many-to-one>
+    <many-to-one name="EntityRegistry" class="Arbinada.GenieLamp.Warehouse.Domain.Core.EntityRegistry" unique="true">
+      <column name="id_entity_registry" not-null="false" />
+    </many-to-one>
+    <property name="RefCode" access="property">
+      <column name="ref_code" not-null="true" />
+    </property>
+    <property name="Caption" access="property">
+      <column name="caption" not-null="false" />
+    </property>
+    <property name="CreatedBy" access="property">
+      <column name="created_by" not-null="false" />
+    </property>
+    <property name="CreatedDate" access="property" type="timestamp">
+      <column name="created_date" not-null="false" />
+    </property>
+    <property name="LastModifiedBy" access="property">
+      <column name="last_modified_by" not-null="false" />
+    </property>
+    <property name="LastModifiedDate" access="property" type="timestamp">
+      <column name="last_modified_date" not-null="false" />
+    </property>
+  </class>
+  <!--Warehouse.StoreType-->
+  <class name="Arbinada.GenieLamp.Warehouse.Domain.Warehouse.StoreType" table="store_type" polymorphism="implicit">
+    <id name="Id" access="property" column="id_store_type">
+      <generator class="native">
+        <param name="sequence">gen_store_type</param>
+      </generator>
+    </id>
+    <version name="Version" column="version" type="int" access="property" />
+    <set name="Stores" table="store" inverse="true" lazy="true" cascade="none">
+      <key column="id_store_type" />
+      <one-to-many class="Arbinada.GenieLamp.Warehouse.Domain.Warehouse.Store" />
+    </set>
+    <many-to-one name="EntityRegistry" class="Arbinada.GenieLamp.Warehouse.Domain.Core.EntityRegistry" unique="true">
+      <column name="id_entity_registry" not-null="false" />
+    </many-to-one>
+    <property name="Name" access="property">
+      <column name="name" not-null="true" />
+    </property>
+    <property name="Caption" access="property">
+      <column name="caption" not-null="false" />
+    </property>
+    <property name="CreatedBy" access="property">
+      <column name="created_by" not-null="false" />
+    </property>
+    <property name="CreatedDate" access="property" type="timestamp">
+      <column name="created_date" not-null="false" />
+    </property>
+    <property name="LastModifiedBy" access="property">
+      <column name="last_modified_by" not-null="false" />
+    </property>
+    <property name="LastModifiedDate" access="property" type="timestamp">
+      <column name="last_modified_date" not-null="false" />
+    </property>
+  </class>
+  <!--Warehouse.Store-->
+  <class name="Arbinada.GenieLamp.Warehouse.Domain.Warehouse.Store" table="store" polymorphism="implicit">
+    <id name="Id" access="property" column="id_store">
+      <generator class="native">
+        <param name="sequence">gen_store</param>
+      </generator>
+    </id>
+    <version name="Version" column="version" type="int" access="property" />
+    <many-to-one name="StoreType" class="Arbinada.GenieLamp.Warehouse.Domain.Warehouse.StoreType" cascade="none">
+      <column name="id_store_type" not-null="false" />
+    </many-to-one>
+    <many-to-one name="EntityRegistry" class="Arbinada.GenieLamp.Warehouse.Domain.Core.EntityRegistry" unique="true">
+      <column name="id_entity_registry" not-null="false" />
+    </many-to-one>
+    <property name="Code" access="property">
+      <column name="code" not-null="true" />
+    </property>
+    <property name="Caption" access="property">
+      <column name="caption" not-null="false" />
+    </property>
+    <property name="CreatedBy" access="property">
+      <column name="created_by" not-null="false" />
+    </property>
+    <property name="CreatedDate" access="property" type="timestamp">
+      <column name="created_date" not-null="false" />
+    </property>
+    <property name="LastModifiedBy" access="property">
+      <column name="last_modified_by" not-null="false" />
+    </property>
+    <property name="LastModifiedDate" access="property" type="timestamp">
+      <column name="last_modified_date" not-null="false" />
+    </property>
+  </class>
+  <!--Warehouse.Contractor-->
+  <class name="Arbinada.GenieLamp.Warehouse.Domain.Warehouse.Contractor" table="contractor" polymorphism="implicit">
+    <id name="Id" access="property" column="id_contractor">
+      <generator class="native">
+        <param name="sequence">gen_contractor</param>
+      </generator>
+    </id>
+    <version name="Version" column="version" type="int" access="property" />
+    <set name="Transactions" table="store_transaction" inverse="true" lazy="true" cascade="none">
+      <key column="id_supplier" />
+      <one-to-many class="Arbinada.GenieLamp.Warehouse.Domain.Warehouse.StoreTransaction" />
+    </set>
+    <many-to-one name="EntityRegistry" class="Arbinada.GenieLamp.Warehouse.Domain.Core.EntityRegistry" unique="true">
+      <column name="id_entity_registry" not-null="false" />
+    </many-to-one>
+    <property name="Name" access="property">
+      <column name="name" not-null="false" />
+    </property>
+    <property name="Address" access="property">
+      <column name="address" not-null="false" />
+    </property>
+    <property name="Phone" access="property">
+      <column name="phone" not-null="false" />
+    </property>
+    <property name="Email" access="property">
+      <column name="email" not-null="false" />
+    </property>
+    <property name="CreatedBy" access="property">
+      <column name="created_by" not-null="false" />
+    </property>
+    <property name="CreatedDate" access="property" type="timestamp">
+      <column name="created_date" not-null="false" />
+    </property>
+    <property name="LastModifiedBy" access="property">
+      <column name="last_modified_by" not-null="false" />
+    </property>
+    <property name="LastModifiedDate" access="property" type="timestamp">
+      <column name="last_modified_date" not-null="false" />
+    </property>
+    <!--Warehouse.Partner-->
+    <joined-subclass name="Arbinada.GenieLamp.Warehouse.Domain.Warehouse.Partner" table="partner">
+      <key column="id_partner" />
+      <property name="Since" access="property" type="timestamp">
+        <column name="since" not-null="true" />
+      </property>
+    </joined-subclass>
+  </class>
+  <!--Warehouse.StoreDoc-->
+  <class name="Arbinada.GenieLamp.Warehouse.Domain.Warehouse.StoreDoc" table="store_doc" polymorphism="implicit">
+    <id name="Id" access="property" column="id_store_doc">
+      <generator class="native">
+        <param name="sequence">gen_store_doc</param>
+      </generator>
+    </id>
+    <version name="Version" column="version" type="int" access="property" />
+    <set name="Lines" table="store_doc_line" inverse="true" lazy="true" cascade="all">
+      <key column="id_store_doc" />
+      <one-to-many class="Arbinada.GenieLamp.Warehouse.Domain.Warehouse.StoreDocLine" />
+    </set>
+    <many-to-one name="EntityRegistry" class="Arbinada.GenieLamp.Warehouse.Domain.Core.EntityRegistry" unique="true">
+      <column name="id_entity_registry" not-null="false" />
+    </many-to-one>
+    <property name="RefNum" access="property">
+      <column name="ref_num" not-null="true" />
+    </property>
+    <property name="Created" access="property" type="timestamp">
+      <column name="created" not-null="true" />
+    </property>
+    <property name="Name" access="property">
+      <column name="name" not-null="false" />
+    </property>
+    <property name="CreatedBy" access="property">
+      <column name="created_by" not-null="false" />
+    </property>
+    <property name="CreatedDate" access="property" type="timestamp">
+      <column name="created_date" not-null="false" />
+    </property>
+    <property name="LastModifiedBy" access="property">
+      <column name="last_modified_by" not-null="false" />
+    </property>
+    <property name="LastModifiedDate" access="property" type="timestamp">
+      <column name="last_modified_date" not-null="false" />
+    </property>
+  </class>
+  <!--Warehouse.StoreDocLine-->
+  <class name="Arbinada.GenieLamp.Warehouse.Domain.Warehouse.StoreDocLine" table="store_doc_line" polymorphism="implicit">
+    <composite-id>
+      <key-many-to-one name="Doc" class="Arbinada.GenieLamp.Warehouse.Domain.Warehouse.StoreDoc" column="id_store_doc" />
+      <key-property name="Position" type="int" column="position" />
+    </composite-id>
+    <version name="Version" column="version" type="int" access="property" />
+    <many-to-one name="Product" class="Arbinada.GenieLamp.Warehouse.Domain.Warehouse.Product" cascade="none">
+      <column name="id_product" not-null="true" />
+    </many-to-one>
+    <many-to-one name="EntityRegistry" class="Arbinada.GenieLamp.Warehouse.Domain.Core.EntityRegistry" unique="true">
+      <column name="id_entity_registry" not-null="false" />
+    </many-to-one>
+    <property name="Quantity" access="property">
+      <column name="quantity" not-null="true" />
+    </property>
+    <property name="CreatedBy" access="property">
+      <column name="created_by" not-null="false" />
+    </property>
+    <property name="CreatedDate" access="property" type="timestamp">
+      <column name="created_date" not-null="false" />
+    </property>
+    <property name="LastModifiedBy" access="property">
+      <column name="last_modified_by" not-null="false" />
+    </property>
+    <property name="LastModifiedDate" access="property" type="timestamp">
+      <column name="last_modified_date" not-null="false" />
+    </property>
+  </class>
+  <!--Warehouse.StoreTransaction-->
+  <class name="Arbinada.GenieLamp.Warehouse.Domain.Warehouse.StoreTransaction" table="store_transaction" polymorphism="implicit">
+    <id name="Id" access="property" column="id_store_transaction">
+      <generator class="native">
+        <param name="sequence">gen_store_transaction</param>
+      </generator>
+    </id>
+    <version name="Version" column="version" type="int" access="property" />
+    <many-to-one name="Supplier" class="Arbinada.GenieLamp.Warehouse.Domain.Warehouse.Contractor" cascade="none">
+      <column name="id_supplier" not-null="true" />
+    </many-to-one>
+    <many-to-one name="Store" class="Arbinada.GenieLamp.Warehouse.Domain.Warehouse.Store" cascade="none">
+      <column name="id_store" not-null="true" />
+    </many-to-one>
+    <many-to-one name="Product" class="Arbinada.GenieLamp.Warehouse.Domain.Warehouse.Product" cascade="none">
+      <column name="id_product" not-null="true" />
+    </many-to-one>
+    <many-to-one name="Customer" class="Arbinada.GenieLamp.Warehouse.Domain.Warehouse.Contractor" cascade="none">
+      <column name="id_customer" not-null="true" />
+    </many-to-one>
+    <many-to-one name="EntityRegistry" class="Arbinada.GenieLamp.Warehouse.Domain.Core.EntityRegistry" unique="true">
+      <column name="id_entity_registry" not-null="false" />
+    </many-to-one>
+    <property name="TxDate" access="property" type="timestamp">
+      <column name="tx_date" not-null="true" />
+    </property>
+    <property name="Direction" access="property">
+      <column name="direction" not-null="true" />
+    </property>
+    <property name="State" access="property">
+      <column name="state" not-null="true" />
+    </property>
+    <property name="Quantity" access="property">
+      <column name="quantity" not-null="true" />
+    </property>
+    <property name="CreatedBy" access="property">
+      <column name="created_by" not-null="false" />
+    </property>
+    <property name="CreatedDate" access="property" type="timestamp">
+      <column name="created_date" not-null="false" />
+    </property>
+    <property name="LastModifiedBy" access="property">
+      <column name="last_modified_by" not-null="false" />
+    </property>
+    <property name="LastModifiedDate" access="property" type="timestamp">
+      <column name="last_modified_date" not-null="false" />
+    </property>
+  </class>
+</hibernate-mapping>

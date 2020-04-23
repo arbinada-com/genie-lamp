@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{88D0D834-11CD-4B6E-AEA3-3CEB87B35A6B}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>GenieLamp.Core.Test</RootNamespace>
+    <AssemblyName>GenieLamp.Core.Test</AssemblyName>
+    <ReleaseVersion>1.2</ReleaseVersion>
+    <StartupObject>GenieLamp.Core.Test.EntryPoint</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="nunit.core">
+      <HintPath>..\Libs\nunit.core.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.core.interfaces">
+      <HintPath>..\Libs\nunit.core.interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\Libs\nunit.framework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <None Include="Models\TestModel1.Physical.xml" />
+    <None Include="Models\TestModel1.xml" />
+    <None Include="Models\TestProject.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CodeWritersTest.cs" />
+    <Compile Include="InitializationTest.cs" />
+    <Compile Include="MacroExpanderTest.cs" />
+    <Compile Include="NamingConventionTest.cs" />
+    <Compile Include="Mocks\SpellConfigMock.cs" />
+    <Compile Include="Mocks\LoggerMock.cs" />
+    <Compile Include="Main.cs" />
+    <Compile Include="PatternsTest.cs" />
+    <Compile Include="TypesTest.cs" />
+    <Compile Include="SpellHintTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GenieLamp.Core\GenieLamp.Core.csproj">
+      <Project>{087F4B9B-880C-44C7-A68B-1E4FB762D458}</Project>
+      <Name>GenieLamp.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GenieLamp.Genies\GenieLamp.Genies.Sqlite\GenieLamp.Genies.Sqlite.csproj">
+      <Project>{E91243A9-656D-404B-8F11-1AD6E50F0467}</Project>
+      <Name>GenieLamp.Genies.Sqlite</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Mocks\" />
+  </ItemGroup>
+</Project>

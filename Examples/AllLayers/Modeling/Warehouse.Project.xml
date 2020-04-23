@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<GenieLamp
+		xmlns="http://www.arbinada.com/GenieLamp/1/0"
+		project="Warehouse"
+		version="1.0">
+
+	<Genie	name="SqliteDb"
+			type="GenieLamp.Genies.Sqlite.SqliteGenie"
+			assembly="GenieLamp.Genies.Sqlite"
+			active="true"
+			outDir="%PROJECT_DIR%/../SQL/Sqlite-%TARGET_VERSION%"
+			outFileName="%PROJECT_NAME%.sql"
+			targetVersion="3">
+		<Param name="Database.Create" value="false" />
+		<Param name="Database.FileName" value="%PROJECT_NAME%.db" />
+		<Assistant
+				name="Simple doc"
+				assembly="GenieLamp.Genies.Assistants.SimpleDoc"
+				type="GenieLamp.Genies.Assistants.SimpleDocAssistant">
+			<Param name="outFile" value="%PROJECT_DIR%/doc.txt" />
+		</Assistant>
+	</Genie>
+
+	<Genie	name="SqlServer"
+			type="GenieLamp.Genies.SqlServer.SqlServerGenie"
+			assembly="GenieLamp.Genies.SqlServer"
+			active="true"
+			outDir="%PROJECT_DIR%/../SQL/SqlServer-%TARGET_VERSION%"
+			outFileName="%PROJECT_NAME%.sql"
+			targetVersion="2008">
+		<Param name="Database.Create" value="true" />
+		<Param name="Database.Name" value="warehousedb" />
+		<Param name="Schemas.Create" value="true" />
+	</Genie>
+	
+	<Genie	name="NHibernate"
+			type="GenieLamp.Genies.NHibernate.NHibernateGenie"
+			assembly="GenieLamp.Genies.NHibernate"
+			active="true"
+			outDir="%PROJECT_DIR%/../Domain"
+			outFileName="%PROJECT_NAME%.Domain.cs"
+			targetVersion="*">
+		<Param name="TargetAssemblyName" value="%PROJECT_NAME%.Domain" />
+	</Genie>
+
+	<Genie	name="Services Interfaces"
+			type="GenieLamp.Genies.ServicesLayer.ServiceStack.ServicesInterfacesGenie"
+			assembly="GenieLamp.Genies.ServicesLayer"
+			active="true"
+			outDir="%PROJECT_DIR%/../Services.Interfaces"
+			targetVersion="*">
+	</Genie>
+
+	<Genie	name="Warehouse Services"
+			type="GenieLamp.Genies.ServicesLayer.ServiceStack.ServicesGenie"
+			assembly="GenieLamp.Genies.ServicesLayer"
+			active="true"
+			outDir="%PROJECT_DIR%/../Services"
+			targetVersion="*">
+	</Genie>
+
+	<ImportModel fileName="Warehouse.Model.xml" />
+
+	<Configuration>
+		<Layer name="Persistence">
+			<NamingConvention style="lowercase" maxLength="30">
+				<Param name="PrimaryKey.ColumnTemplate" value="ID_%TABLE%" />
+				<Param name="PrimaryKey.ConstraintTemplate" value="PK_%TABLE%" />
+				<Param name="PrimaryKey.CreateIndex" value="false"/>
+				<Param name="Unique.ConstraintTemplate" value="UC_%TABLE%_%COLUMNS%" />
+				<Param name="Unique.CreateIndex" value="false"/>
+				<Param name="ForeignKey.ColumnTemplate" value="ID_%REF_TABLE%" />
+				<Param name="ForeignKey.ConstraintTemplate" value="FK%COUNTER%_%TABLE%_%COLUMNS%" />
+				<Param name="Generator.Template" value="GEN_%TABLE%" />
+				<Param name="Index.Template" value="IX_%TABLE%_%COLUMNS%" />
+			</NamingConvention>
+			<Param name="ForeignKey.CreateIndex" value="true" />
+		</Layer>
+
+		<Layer name="Domain">
+			<Param name="BaseNamespace" value="Arbinada.GenieLamp.%PROJECT_NAME%" />
+			<Param name="MappingStrategy" value="TablePerSubclass" />
+		</Layer>
+
+		<Layer name="Services">
+			<Param name="BaseNamespace" value="Arbinada.GenieLamp.%PROJECT_NAME%" />
+		</Layer>
+
+	    <Pattern name="Registry" onPersistentLayer="false">
+			<Param name="Schema" value="Core" />
+  			<Param name="PersistentSchema" value="" />
+  			<Param name="PrimaryId.Type" value="int" />
+	    </Pattern>
+
+		<Pattern name="StateVersion">
+			<Param name="Attribute.Name" value="Version" />
+			<Param name="Attribute.Type" value="int" />
+			<!--Param name="UnsavedValue" value="negative" /-->
+		</Pattern>
+
+		<Pattern name="Audit">
+		</Pattern>
+	</Configuration>
+
+</GenieLamp>

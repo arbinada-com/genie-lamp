@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-configuration  xmlns="urn:nhibernate-configuration-2.2" >
+  <session-factory name="NHibernate.Test">
+    <property name="connection.driver_class">NHibernate.Driver.MonoSQLiteDriver, Warehouse.Domain</property> <!--NHibernate.Driver.SQLite20Driver-->
+    <property name="connection.connection_string">
+      Data Source=../../../SQL/Sqlite-3/Warehouse.db;Version=3;
+    </property>
+    <property name="show_sql">false</property>
+    <property name="dialect">NHibernate.Dialect.SQLiteDialect</property>
+    <property name="query.substitutions">true 1, false 0, yes 'Y', no 'N'</property>
+    <property name="current_session_context_class">thread_static</property> <!-- WcfOperation --><!-- ManagedWeb -->
+    <mapping assembly="Warehouse.Domain"/>
+  </session-factory>
+</hibernate-configuration>
+
+

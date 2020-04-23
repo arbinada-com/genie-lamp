@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A30790DF-7E9B-40D5-ABCD-96DD04FF6168}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>GenieLamp.Genies.DbSchemaImport</RootNamespace>
+    <AssemblyName>GenieLamp.Genies.DbSchemaImport</AssemblyName>
+    <ReleaseVersion>1.2</ReleaseVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\Bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="DbSchemaImportGenie.cs" />
+    <Compile Include="SchemaImporter.cs" />
+    <Compile Include="MetadataProviderOracle.cs" />
+    <Compile Include="MetadataProviderBase.cs" />
+    <Compile Include="MetaInfo\MetaInfoTable.cs" />
+    <Compile Include="MetaInfo\MetaInfoTables.cs" />
+    <Compile Include="MetaInfo\MetaInfoColumns.cs" />
+    <Compile Include="MetaInfo\MetaInfoColumn.cs" />
+    <Compile Include="MetaInfo\MetaInfoPrimaryKey.cs" />
+    <Compile Include="MetaInfo\MetaInfoBase.cs" />
+    <Compile Include="MetaInfo\MetaInfoBaseTableOwned.cs" />
+    <Compile Include="MetaInfo\MetaInfoForeignKeys.cs" />
+    <Compile Include="MetaInfo\MetaInfoCollection.cs" />
+    <Compile Include="MetaInfo\MetaInfoForeignKey.cs" />
+    <Compile Include="MetaInfo\MetaInfoColumnsMatches.cs" />
+    <Compile Include="MetaInfo\MetaInfoColumnsMatch.cs" />
+    <Compile Include="MetaInfo\MetaInfoUniqueConstraint.cs" />
+    <Compile Include="MetaInfo\MetaInfoUniqueConstraints.cs" />
+    <Compile Include="MetaInfo\MetaInfoIndex.cs" />
+    <Compile Include="MetaInfo\MetaInfoIndexes.cs" />
+    <Compile Include="MetaInfo\MetaInfoGenerator.cs" />
+    <Compile Include="MetaInfo\MetaInfoGenerators.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\GenieLamp.Core\GenieLamp.Core.csproj">
+      <Project>{087F4B9B-880C-44C7-A68B-1E4FB762D458}</Project>
+      <Name>GenieLamp.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MetaInfo\" />
+  </ItemGroup>
+</Project>

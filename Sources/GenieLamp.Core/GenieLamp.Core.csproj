@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{087F4B9B-880C-44C7-A68B-1E4FB762D458}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>GenieLamp.Core</RootNamespace>
+    <AssemblyName>GenieLamp.Core</AssemblyName>
+    <ReleaseVersion>1.2</ReleaseVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="GenieLamp.cs" />
+    <Compile Include="Metamodel\Model.cs" />
+    <Compile Include="GenieLampLoader.cs" />
+    <Compile Include="Metamodel\Entity.cs" />
+    <Compile Include="Metamodel\Entities.cs" />
+    <Compile Include="Metamodel\Attribute.cs" />
+    <Compile Include="Metamodel\MetaObject.cs" />
+    <Compile Include="Metamodel\Attributes.cs" />
+    <Compile Include="Metamodel\Types.cs" />
+    <Compile Include="Metamodel\Type.cs" />
+    <Compile Include="Metamodel\MetaObjectCollection.cs" />
+    <Compile Include="Metamodel\MetaObjectNamedCollection.cs" />
+    <Compile Include="Metamodel\EntityConstraints.cs" />
+    <Compile Include="Metamodel\EntityConstraint.cs" />
+    <Compile Include="Metamodel\Enumeration.cs" />
+    <Compile Include="Metamodel\Enumerations.cs" />
+    <Compile Include="Metamodel\MetaObjectSchemed.cs" />
+    <Compile Include="Metamodel\EnumerationItems.cs" />
+    <Compile Include="Metamodel\EnumerationItem.cs" />
+    <Compile Include="Metamodel\Relations.cs" />
+    <Compile Include="Metamodel\Relation.cs" />
+    <Compile Include="Metamodel\RelationAttributesMatch.cs" />
+    <Compile Include="Metamodel\RelationAttributeMatch.cs" />
+    <Compile Include="Metamodel\EntityAttributes.cs" />
+    <Compile Include="Metamodel\EntityConstraintAttributes.cs" />
+    <Compile Include="Metamodel\Doc.cs" />
+    <Compile Include="CodeWriters\CodeWriterText.cs" />
+    <Compile Include="CodeWriters\CodeWritersInterfaces.cs" />
+    <Compile Include="CodeWriters\CodeWritersFactory.cs" />
+    <Compile Include="CodeWriters\CodeWriterSql.cs" />
+    <Compile Include="CodeWriters\CodeWriterCommentSettings.cs" />
+    <Compile Include="CodeWriters\CodeWriterPlSql.cs" />
+    <Compile Include="GenieLampConfig.cs" />
+    <Compile Include="GenieConfig.cs" />
+    <Compile Include="Genies.cs" />
+    <Compile Include="Metamodel\MetamodelInterfaces.cs" />
+    <Compile Include="Interfaces.cs" />
+    <Compile Include="GenieConfigParams.cs" />
+    <Compile Include="Utils\Utils.cs" />
+    <Compile Include="Metamodel\Persistence.cs" />
+    <Compile Include="Metamodel\TypeDefinition.cs" />
+    <Compile Include="Utils\GlCollection.cs" />
+    <Compile Include="Utils\GlNamedCollection.cs" />
+    <Compile Include="Utils\ParamSimple.cs" />
+    <Compile Include="Utils\ParamsSimple.cs" />
+    <Compile Include="Utils\GlEnumerator.cs" />
+    <Compile Include="Utils\MacroExpander.cs" />
+    <Compile Include="CodeWriters\CodeWriterCSharp.cs" />
+    <Compile Include="CodeWriters\CodeWriterScopeSettings.cs" />
+    <Compile Include="GenieLampUtils.cs" />
+    <Compile Include="Environments\EnvironmentCSharp.cs" />
+    <Compile Include="Environments\EnvironmentHelperBase.cs" />
+    <Compile Include="Environments\EnvironmentOracleDb.cs" />
+    <Compile Include="Metamodel\UniqueIdConstraints.cs" />
+    <Compile Include="Exceptions\GlException.cs" />
+    <Compile Include="Metamodel\SubtypeRelation.cs" />
+    <Compile Include="Metamodel\Generators.cs" />
+    <Compile Include="Metamodel\Generator.cs" />
+    <Compile Include="Utils\QualName.cs" />
+    <Compile Include="Environments\EnvironmentSqlServer.cs" />
+    <Compile Include="Environments\EnvironmentSqliteDb.cs" />
+    <Compile Include="Layers\DomainLayerConfig.cs" />
+    <Compile Include="Layers\LayerConfig.cs" />
+    <Compile Include="Layers\LayerConfigParams.cs" />
+    <Compile Include="Layers\LayersConfig.cs" />
+    <Compile Include="Layers\LayersInterfaces.cs" />
+    <Compile Include="Layers\LayerMethod.cs" />
+    <Compile Include="Layers\ServicesLayerConfig.cs" />
+    <Compile Include="Layers\PersistenceLayerConfig.cs" />
+    <Compile Include="Metamodel\AttributeMigration.cs" />
+    <Compile Include="Patterns\PatternConfig.cs" />
+    <Compile Include="Patterns\PatternsInterfaces.cs" />
+    <Compile Include="Patterns\PatternConfigParams.cs" />
+    <Compile Include="Metamodel\Schemas.cs" />
+    <Compile Include="Metamodel\Schema.cs" />
+    <Compile Include="CodeWriters\CodeWriterStringLiteralSettings.cs" />
+    <Compile Include="Utils\SqlStringBuilder.cs" />
+    <Compile Include="Patterns\PatternApply.cs" />
+    <Compile Include="Patterns\PatternApplyItem.cs" />
+    <Compile Include="Layers\LayerKeywords.cs" />
+    <Compile Include="Metamodel\Physical\ForeignKey.cs" />
+    <Compile Include="Metamodel\Physical\Index.cs" />
+    <Compile Include="Metamodel\Physical\Indexes.cs" />
+    <Compile Include="Metamodel\Physical\ForeignKeys.cs" />
+    <Compile Include="Metamodel\Physical\PhysicalModel.cs" />
+    <Compile Include="Metamodel\Physical\PhysicalInterfaces.cs" />
+    <Compile Include="Patterns\RegistryPattern.cs" />
+    <Compile Include="Patterns\StateVersionPattern.cs" />
+    <Compile Include="Patterns\Patterns.cs" />
+    <Compile Include="Patterns\AuditPattern.cs" />
+    <Compile Include="Metamodel\AttributesCollection.cs" />
+    <Compile Include="Utils\NamingConvention.cs" />
+    <Compile Include="Utils\NamingConventionParams.cs" />
+    <Compile Include="Metamodel\SpellHint.cs" />
+    <Compile Include="Metamodel\SpellHints.cs" />
+    <Compile Include="Metamodel\SpellHintParams.cs" />
+    <Compile Include="Metamodel\PrimaryId.cs" />
+    <Compile Include="Metamodel\UniqueId.cs" />
+    <Compile Include="Metamodel\EntityEventHandlers.cs" />
+    <Compile Include="Metamodel\EntityEventHandler.cs" />
+    <Compile Include="Metamodel\EntityOperation.cs" />
+    <Compile Include="Metamodel\EntityOperationParam.cs" />
+    <Compile Include="Metamodel\EntityOperationReturn.cs" />
+    <Compile Include="Metamodel\EntityOperationParams.cs" />
+    <Compile Include="Metamodel\EntityOperations.cs" />
+    <Compile Include="GenieAssistantConfig.cs" />
+    <Compile Include="GenieAssistantConfigs.cs" />
+    <Compile Include="CodeWriters\CodeWriterTransactSql.cs" />
+    <Compile Include="Patterns\LocalizationPattern.cs" />
+    <Compile Include="Layers\LayerLocalizationParams.cs" />
+    <Compile Include="Patterns\SecurityPattern.cs" />
+    <Compile Include="Metamodel\Physical\IndexColumn.cs" />
+    <Compile Include="Metamodel\Physical\IndexColumns.cs" />
+    <Compile Include="Utils\Cryptography.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Metamodel\" />
+    <Folder Include="XMLSchema\" />
+    <Folder Include="CodeWriters\" />
+    <Folder Include="Utils\" />
+    <Folder Include="Environments\" />
+    <Folder Include="Exceptions\" />
+    <Folder Include="Layers\" />
+    <Folder Include="Patterns\" />
+    <Folder Include="Metamodel\Physical\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="XMLSchema\GenieLamp.xsd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XMLSchema\GenieLampModel.xsd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

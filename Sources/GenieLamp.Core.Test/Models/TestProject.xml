@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<GenieLamp
+		xmlns="http://www.arbinada.com/GenieLamp/1/0"
+		project="Test"
+		version="1.0">
+	
+	<Genie	name="SqliteDb"
+			type="GenieLamp.Genies.Sqlite.SqliteGenie"
+			assembly="GenieLamp.Genies.Sqlite"
+			active="true"
+			outDir="%PROJECT_DIR%/SQL/Sqlite-%TARGET_VERSION%"
+			outFileName="%PROJECT_NAME%.sql"
+			targetVersion="3">
+		<Param name="Database.Create" value="false" />
+		<Param name="Database.FileName" value="%PROJECT_NAME%.db" />
+	</Genie>
+
+
+	<ImportModel fileName="TestModel1.xml" />
+	<ImportModel fileName="TestModel1.Physical.xml" />
+	
+	<Configuration>
+		<Layer name="Persistence">
+			<NamingConvention style="uppercase" maxLength="30">
+				<Param name="PrimaryKey.ColumnTemplate" value="ID_%TABLE%" />
+				<Param name="PrimaryKey.ConstraintTemplate" value="PK_%TABLE%" />
+				<Param name="PrimaryKey.CreateIndex" value="false"/>
+				<Param name="Unique.ConstraintTemplate" value="UC_%TABLE%_%COLUMNS%" />
+				<Param name="Unique.CreateIndex" value="false"/>
+				<Param name="ForeignKey.ColumnTemplate" value="ID_%REF_TABLE%" />
+				<Param name="ForeignKey.ConstraintTemplate" value="FK%COUNTER%_%TABLE%_%COLUMNS%" />
+				<Param name="Generator.Template" value="SEQ_%TABLE%" />
+				<Param name="Index.Template" value="IX_%TABLE%_%COLUMNS%" />
+			</NamingConvention>
+			<Param name="ForeignKey.CreateIndex" value="true" />
+		</Layer>
+
+		<Layer name="Domain">
+			<Param name="BaseNamespace" value="Arbinada.GenieLamp.%PROJECT_NAME%" />
+			<Localization>
+				<Param name="SatelliteAssemblyName" value="Arbinada.GenieLamp.%PROJECT_NAME%.Domain" />
+			</Localization>
+		</Layer>
+
+		<Layer name="Services">
+			<Param name="BaseNamespace" value="Arbinada.GenieLamp.%PROJECT_NAME%" />
+		</Layer>
+		
+	    <Pattern name="Registry">
+	      <Param name="Schema" value="Warehouse" />
+	      <Param name="PersistentSchema" value="" />
+	      <Param name="RegistryEntity.Name" value="Registry" />
+	      <Param name="TypesEntity.Name" value="EntityType" />
+	      <Param name="PrimaryId.Type" value="int" />
+	      <!--Exclude entity="EntityTypeEx" />
+	      <Exclude entity="Product" />
+	      <Exclude entity="StoreType" />
+	      <Exclude entity="Store" />
+	      <Exclude entity="StoreTransaction" />
+	      <Exclude entity="Warehouse.StoreDoc" />
+	      <Exclude entity="Warehouse.StoreDocLine" /-->
+	    </Pattern>
+
+		<Pattern name="StateVersion">
+	      <Param name="Attribute.Name" value="Version" />
+	      <Param name="Attribute.Type" value="int" />
+	      <!--Param name="UnsavedValue" value="negative" /-->
+		</Pattern>
+
+		<Pattern name="Localization">
+		</Pattern>
+	</Configuration>
+</GenieLamp>

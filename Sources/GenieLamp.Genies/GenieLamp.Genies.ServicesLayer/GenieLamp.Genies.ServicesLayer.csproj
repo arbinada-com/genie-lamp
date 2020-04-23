@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E897B9F1-0B0E-4B6D-A6C9-77D712733D11}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>GenieLamp.Genies.ServicesLayer</RootNamespace>
+    <AssemblyName>GenieLamp.Genies.ServicesLayer</AssemblyName>
+    <ReleaseVersion>1.2</ReleaseVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\Bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="GenieBase.cs" />
+    <Compile Include="WCF\WCFServicesGenie.cs" />
+    <Compile Include="CodeGenBase.cs" />
+    <Compile Include="WCF\CodeGenWCFDomainContracts.cs" />
+    <Compile Include="WCF\CodeGenWCFServiceHost.cs" />
+    <Compile Include="WCF\CodeGenWCFDomainServicesAdapters.cs" />
+    <Compile Include="WCF\CodeGenWCFDomainServices.cs" />
+    <Compile Include="ServiceStack\StackServicesGenie.cs" />
+    <Compile Include="ServiceStack\StackServicesInterfacesGenie.cs" />
+    <Compile Include="NamingHelper.cs" />
+    <Compile Include="WCF\NamingHelperWCF.cs" />
+    <Compile Include="ServiceStack\CodeGenStackServicesInterfaces.cs" />
+    <Compile Include="CodeGenDTO.cs" />
+    <Compile Include="ServiceStack\NamingHelperStack.cs" />
+    <Compile Include="ServiceStack\CodeGenStackDomainServices.cs" />
+    <Compile Include="WCF\WCFServicesProxyGenie.cs" />
+    <Compile Include="ServiceStack\CodeGenStackServicesHost.cs" />
+    <Compile Include="ServiceStack\CodeGenDomainDTOAdapters.cs" />
+    <Compile Include="ServiceStack\RestServiceHelper.cs" />
+    <Compile Include="ServiceStack\OperationHelper.cs" />
+    <Compile Include="ServiceStack\ServicesInterfacesHelper.cs" />
+    <Compile Include="HelperBase.cs" />
+    <Compile Include="ServiceStack\CodeGenStackDTO.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\GenieLamp.Core\GenieLamp.Core.csproj">
+      <Project>{087F4B9B-880C-44C7-A68B-1E4FB762D458}</Project>
+      <Name>GenieLamp.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GenieLamp.Utils\TextTemplate\TextTemplate.csproj">
+      <Project>{4607FD0C-6008-4607-A3F8-36D5C18F67C5}</Project>
+      <Name>TextTemplate</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ServiceStack\" />
+    <Folder Include="WCF\" />
+    <Folder Include="Templates\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\DomainDTO.cs" />
+    <EmbeddedResource Include="Templates\StackServicesInterfaces.cs" />
+    <EmbeddedResource Include="Templates\WCFClientProxies.cs" />
+    <EmbeddedResource Include="Templates\StackDomainServices.cs" />
+    <EmbeddedResource Include="Templates\StackDomainDTOAdapters.cs" />
+    <EmbeddedResource Include="Templates\ServicesInterfaces.cs" />
+    <EmbeddedResource Include="Templates\WCFServicesInterfaces.cs" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Domain" namespace="GenieLamp.Examples.QuickStart">
+  <!--QuickStart.Customer-->
+  <class name="GenieLamp.Examples.QuickStart.Domain.QuickStart.Customer" table="customer" schema="dbo" polymorphism="implicit">
+    <id name="Id" access="property" column="id_customer">
+      <generator class="native">
+        <param name="sequence">dbo.customer</param>
+      </generator>
+    </id>
+    <set name="Orders" table="dbo.purchase_order" inverse="true" lazy="true" cascade="none">
+      <key column="id_customer" />
+      <one-to-many class="GenieLamp.Examples.QuickStart.Domain.QuickStart.PurchaseOrder" />
+    </set>
+    <property name="Code" access="property">
+      <column name="code" not-null="true" />
+    </property>
+    <property name="Name" access="property">
+      <column name="name" not-null="true" />
+    </property>
+    <property name="Phone" access="property">
+      <column name="phone" not-null="false" />
+    </property>
+    <property name="Email" access="property">
+      <column name="email" not-null="false" />
+    </property>
+  </class>
+  <!--QuickStart.Product-->
+  <class name="GenieLamp.Examples.QuickStart.Domain.QuickStart.Product" table="product" schema="dbo" polymorphism="implicit">
+    <id name="Id" access="property" column="id_product">
+      <generator class="native">
+        <param name="sequence">dbo.product</param>
+      </generator>
+    </id>
+    <property name="Reference" access="property">
+      <column name="reference" not-null="true" />
+    </property>
+    <property name="Name" access="property">
+      <column name="name" not-null="true" />
+    </property>
+  </class>
+  <!--QuickStart.PurchaseOrder-->
+  <class name="GenieLamp.Examples.QuickStart.Domain.QuickStart.PurchaseOrder" table="purchase_order" schema="dbo" polymorphism="implicit">
+    <id name="Id" access="property" column="id_purchase_order">
+      <generator class="native">
+        <param name="sequence">dbo.purchase_order</param>
+      </generator>
+    </id>
+    <many-to-one name="Customer" class="GenieLamp.Examples.QuickStart.Domain.QuickStart.Customer" cascade="none">
+      <column name="id_customer" not-null="true" />
+    </many-to-one>
+    <set name="Lines" table="dbo.purchase_order_line" inverse="true" lazy="true" cascade="none">
+      <key column="id_purchase_order" />
+      <one-to-many class="GenieLamp.Examples.QuickStart.Domain.QuickStart.PurchaseOrderLine" />
+    </set>
+    <property name="Number" access="property">
+      <column name="number" not-null="true" />
+    </property>
+    <property name="IssueDate" access="property">
+      <column name="issue_date" not-null="true" />
+    </property>
+    <property name="Validated" access="property" type="boolean">
+      <column name="validated" not-null="true" />
+    </property>
+    <property name="ShipmentDate" access="property">
+      <column name="shipment_date" not-null="false" />
+    </property>
+  </class>
+  <!--QuickStart.PurchaseOrderLine-->
+  <class name="GenieLamp.Examples.QuickStart.Domain.QuickStart.PurchaseOrderLine" table="purchase_order_line" schema="dbo" polymorphism="implicit">
+    <id name="Id" access="property" column="id_purchase_order_line">
+      <generator class="native">
+        <param name="sequence">dbo.purchase_order_line</param>
+      </generator>
+    </id>
+    <many-to-one name="PurchaseOrder" class="GenieLamp.Examples.QuickStart.Domain.QuickStart.PurchaseOrder" cascade="none">
+      <column name="id_purchase_order" not-null="true" />
+    </many-to-one>
+    <many-to-one name="Product" class="GenieLamp.Examples.QuickStart.Domain.QuickStart.Product" cascade="none">
+      <column name="id_product" not-null="true" />
+    </many-to-one>
+    <property name="Position" access="property">
+      <column name="position" not-null="true" />
+    </property>
+    <property name="Price" access="property">
+      <column name="price" not-null="true" />
+    </property>
+    <property name="Quantity" access="property">
+      <column name="quantity" not-null="true" />
+    </property>
+  </class>
+</hibernate-mapping>

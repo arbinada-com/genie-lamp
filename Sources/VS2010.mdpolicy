@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PolicySet name="VS2010">
+  <TextStylePolicy inheritsSet="Mono" inheritsScope="text/plain" scope="text/plain">
+    <FileWidth>120</FileWidth>
+    <TabWidth>4</TabWidth>
+    <RemoveTrailingWhitespace>True</RemoveTrailingWhitespace>
+    <EolMarker>Windows</EolMarker>
+  </TextStylePolicy>
+  <DotNetNamingPolicy>
+    <DirectoryNamespaceAssociation>None</DirectoryNamespaceAssociation>
+    <ResourceNamePolicy>FileName</ResourceNamePolicy>
+  </DotNetNamingPolicy>
+  <TextStylePolicy inheritsSet="Mono" inheritsScope="text/plain" scope="application/xml">
+    <FileWidth>120</FileWidth>
+    <TabWidth>4</TabWidth>
+    <RemoveTrailingWhitespace>True</RemoveTrailingWhitespace>
+    <EolMarker>Windows</EolMarker>
+  </TextStylePolicy>
+  <XmlFormattingPolicy inheritsSet="Mono" inheritsScope="application/xml" scope="application/xml" />
+  <TextStylePolicy inheritsSet="Mono" inheritsScope="text/plain" scope="text/x-csharp">
+    <FileWidth>120</FileWidth>
+    <TabWidth>4</TabWidth>
+    <RemoveTrailingWhitespace>True</RemoveTrailingWhitespace>
+    <EolMarker>Windows</EolMarker>
+  </TextStylePolicy>
+  <CSharpFormattingPolicy inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp">
+    <PropertyBraceStyle>NextLine</PropertyBraceStyle>
+    <PropertyGetBraceStyle>NextLine</PropertyGetBraceStyle>
+    <PropertySetBraceStyle>NextLine</PropertySetBraceStyle>
+    <StatementBraceStyle>NextLine</StatementBraceStyle>
+    <PlaceElseOnNewLine>True</PlaceElseOnNewLine>
+    <PlaceCatchOnNewLine>True</PlaceCatchOnNewLine>
+    <PlaceFinallyOnNewLine>True</PlaceFinallyOnNewLine>
+    <PlaceWhileOnNewLine>True</PlaceWhileOnNewLine>
+    <BeforeMethodDeclarationParentheses>False</BeforeMethodDeclarationParentheses>
+    <BeforeMethodCallParentheses>False</BeforeMethodCallParentheses>
+    <BeforeConstructorDeclarationParentheses>False</BeforeConstructorDeclarationParentheses>
+    <BeforeIndexerDeclarationBracket>False</BeforeIndexerDeclarationBracket>
+    <BeforeDelegateDeclarationParentheses>False</BeforeDelegateDeclarationParentheses>
+    <NewParentheses>False</NewParentheses>
+    <SpacesBeforeBrackets>False</SpacesBeforeBrackets>
+  </CSharpFormattingPolicy>
+</PolicySet>

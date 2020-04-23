@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+		targetNamespace="http://www.arbinada.com/GenieLamp/1/0" 
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		xmlns:gl="http://www.arbinada.com/GenieLamp/1/0"
+		elementFormDefault="qualified">
+	
+<xs:element name="GenieLamp">
+	<xs:complexType>
+	    <xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Genie" minOccurs="1">
+				<xs:complexType>
+				    <xs:choice minOccurs="0" maxOccurs="unbounded">
+						<xs:element name="NamingConvention" type="gl:TNamingConvention" maxOccurs="1" />
+						<xs:element name="Param" type="gl:TKeyValuePair" />
+						<xs:element name="Assistant" type="gl:TGenieAssistant" />
+					</xs:choice>
+					<xs:attribute name="name" type="xs:string" use="required" />
+					<xs:attribute name="type" type="xs:string" use="required" />
+					<xs:attribute name="assembly" type="xs:string" use="required" />
+					<xs:attribute name="active" type="xs:boolean" use="optional" default="true" />
+					<xs:attribute name="outDir" type="xs:string" use="optional" default="%PROJECT_DIR%" />
+					<xs:attribute name="outFileName" type="xs:string" use="optional" default="%PROJECT%" />
+					<xs:attribute name="outFileEncoding" type="xs:string" use="optional" />
+					<xs:attribute name="updateDatabase" type="xs:boolean" use="optional" default="false" />
+					<xs:attribute name="targetVersion" type="xs:string" use="optional" default="*" />
+				</xs:complexType>
+			</xs:element>
+		
+			<xs:element name="ImportModel" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:attribute name="fileName" type="xs:string" use="required" />
+				</xs:complexType>
+			</xs:element>
+		
+			<xs:element name="Configuration" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+				    <xs:choice minOccurs="0" maxOccurs="unbounded">
+						<xs:element name="Layer" type="gl:TLayer" />
+						<xs:element name="Pattern" type="gl:TPattern" />
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+		<xs:attribute name="project" type="xs:string" use="required" />
+		<xs:attribute name="version" type="xs:string" use="required" />
+	</xs:complexType>
+</xs:element>
+
+
+<xs:complexType name="TGenieAssistant">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+		<xs:element name="Param" type="gl:TKeyValuePair" />
+	</xs:choice>
+	<xs:attribute name="name" type="xs:string" use="required" />
+	<xs:attribute name="type" type="xs:string" use="required" />
+	<xs:attribute name="assembly" type="xs:string" use="required" />
+</xs:complexType>
+
+
+<xs:complexType name="TLayer">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+		<xs:element name="NamingConvention" type="gl:TNamingConvention" />
+		<xs:element name="Param" type="gl:TKeyValuePair" />
+		<xs:element name="Localization" type="gl:TLocalizationParams" />
+	</xs:choice>
+	<xs:attribute name="name" type="gl:TLayerType" use="required">
+		<xs:annotation>
+				<xs:documentation>The name of logical layer</xs:documentation>
+		</xs:annotation>
+	</xs:attribute>
+	<xs:attribute name="subname" type="xs:string" use="optional">
+		<xs:annotation>
+				<xs:documentation>The user subname of logical layer. Parameters can be found by their type + subtype.</xs:documentation>
+		</xs:annotation>
+	</xs:attribute>
+</xs:complexType>
+
+<xs:complexType name="TLocalizationParams">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+		<xs:element name="Param" type="gl:TKeyValuePair" />
+	</xs:choice>
+</xs:complexType>
+
+
+<xs:complexType name="TPattern">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+		<xs:element name="Param" type="gl:TKeyValuePair" />
+		<xs:element name="Exclude" type="gl:TPatternApply" />
+		<xs:element name="Include" type="gl:TPatternApply" />
+	</xs:choice>
+	<xs:attribute name="name" type="xs:string" use="required">
+		<xs:annotation>
+				<xs:documentation>The name of pattern</xs:documentation>
+		</xs:annotation>
+	</xs:attribute>
+	<xs:attribute name="onPersistentLayer" type="xs:boolean" use="optional" default="false" />
+</xs:complexType>
+
+<xs:complexType name="TPatternApply">
+	<xs:attribute name="entity" type="xs:string" use="required" />
+</xs:complexType>
+
+<xs:complexType name="TKeyValuePair">
+	<xs:attribute name="name" type="xs:string" use="required" />
+	<xs:attribute name="value" type="xs:string" use="required" />
+</xs:complexType>	
+
+<xs:complexType name="TNamingConvention">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+		<xs:element name="Param" type="gl:TKeyValuePair" />
+	</xs:choice>
+	<xs:attribute name="style" type="gl:TNamingStyle" use="optional" default="none" />
+	<xs:attribute name="maxLength" type="xs:integer" use="optional" />
+</xs:complexType>	
+	
+<xs:simpleType name="TNamingStyle">
+    <xs:restriction base="xs:string">
+        <xs:enumeration value="none" />
+        <xs:enumeration value="uppercase" />
+        <xs:enumeration value="lowercase" />
+        <xs:enumeration value="camelcase" />
+    </xs:restriction>
+</xs:simpleType>	
+	
+<xs:simpleType name="TLayerType">
+    <xs:restriction base="xs:string">
+        <xs:enumeration value="Persistence" />
+        <xs:enumeration value="Domain" />
+        <xs:enumeration value="Services" />
+        <xs:enumeration value="UserInterface" />
+    </xs:restriction>
+</xs:simpleType>	
+
+</xs:schema>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Model xmlns="http://www.arbinada.com/GenieLampModel/1/0"
+	   defaultPersistentSchema="dbo"
+	   defaultSchema="QuickStart">
+
+	<Type name="TEntityId" baseType="int" />
+	<Type name="TCaption" baseType="string" length="100" />
+	
+	<Entity name="Customer">
+		<Attribute name="Id" type="TEntityId" autoincrement="true" primaryid="true" />
+		<Attribute name="Code" type="string" length="10" uniqueid="true" />
+		<Attribute name="Name" type="TCaption" />
+		<Attribute name="Phone" type="string" length="40" required="false" />
+		<Attribute name="Email" type="string" length="255" required="false" />
+	</Entity>
+
+	<Entity name="Product">
+		<Attribute name="Id" type="TEntityId" autoincrement="true" primaryid="true" />
+		<Attribute name="Reference" type="string" length="10" uniqueid="true" />
+		<Attribute name="Name" type="TCaption" />
+	</Entity>
+
+	<Entity name="PurchaseOrder">
+		<Attribute name="Id" type="TEntityId" autoincrement="true" primaryid="true" />
+		<Attribute name="Number" type="string" length="15" uniqueid="true" />
+		<Attribute name="IssueDate" type="date" />
+		<Attribute name="CustomerId" type="TEntityId" />
+		<Attribute name="Validated" type="boolean" default="false" />
+		<Attribute name="ShipmentDate" type="date" required="false" />
+
+		<Attribute name="TotalAmount" type="currency" persisted="false">
+			<Doc>
+				<Text lang="en">Return the total amount of the order</Text>
+			</Doc>
+		</Attribute>
+		<Operation name="Validate" access="public">
+			<Doc>
+				<Text lang="en">Set purchase order state "Validated" to true</Text>
+			</Doc>
+			<Returns type="void" />
+		</Operation>
+	</Entity>
+	
+	<Relation entity="Customer" name="Orders" 
+			  entity2="PurchaseOrder" name2="Customer" 
+			  cardinality="1:M">
+		<AttributeMatch attribute="Id" attribute2="CustomerId"/>
+	</Relation>
+
+	<Entity name="PurchaseOrderLine">
+		<Attribute name="Id" type="TEntityId" autoincrement="true" primaryid="true" />
+		<UniqueId>
+			<Attribute name="PurchaseOrderId" type="TEntityId" />
+			<Attribute name="Position" type="smallint" />
+		</UniqueId>
+		<Attribute name="ProductId" type="TEntityId" />
+		<Attribute name="Price" type="currency" />
+		<Attribute name="Quantity" type="int" />
+	</Entity>
+	
+	<Relation entity="PurchaseOrderLine" name="PurchaseOrder" 
+			  entity2="PurchaseOrder" name2="Lines" 
+			  cardinality="M:1">
+		<AttributeMatch attribute="PurchaseOrderId" attribute2="Id"/>
+	</Relation>
+	
+	<Relation entity="PurchaseOrderLine" name="Product" 
+			  entity2="Product" navigate2="false" 
+			  cardinality="M:1">
+		<AttributeMatch attribute="ProductId" attribute2="Id"/>
+	</Relation>
+</Model>

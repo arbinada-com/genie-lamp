@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4607FD0C-6008-4607-A3F8-36D5C18F67C5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TextTemplate</RootNamespace>
+    <AssemblyName>TextTemplate</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <ReleaseVersion>1.2</ReleaseVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\Bin\Release</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CSharpTemplateHandler.cs" />
+    <Compile Include="IncludeEventArgs.cs" />
+    <Compile Include="ITemplateLanguageHandler.cs" />
+    <Compile Include="ITemplateProxy.cs" />
+    <Compile Include="LanguageHandlers.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringEx.cs" />
+    <Compile Include="TemplateCompilerException.cs" />
+    <Compile Include="TemplateException.cs" />
+    <Compile Include="Template.cs" />
+    <Compile Include="TemplateLanguageHandlerBase.cs" />
+    <Compile Include="TemplateProxy.cs" />
+    <Compile Include="TemplateParser.cs" />
+    <Compile Include="TemplateSyntaxException.cs" />
+    <Compile Include="TemplateTokenizer.cs" />
+    <Compile Include="TemplateToken.cs" />
+    <Compile Include="TemplateTokenType.cs" />
+    <Compile Include="TypeHelper.cs" />
+    <Compile Include="VisualBasicTemplateHandler.cs" />
+    <Compile Include="Template.NonGeneric.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

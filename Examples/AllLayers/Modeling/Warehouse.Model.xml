@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Model	xmlns="http://www.arbinada.com/GenieLampModel/1/0"
+		defaultSchema="Warehouse"
+		defaultPersistentSchema="">
+	
+	<Type name="TObjectId" baseType="int" />
+	<Type name="TProductReference" baseType="string" length="10" required="true" />
+	<Type name="TCaption" baseType="string" length="100" required="false" />
+	<Type name="TPhone" baseType="string" length="20" required="false" />
+	<Type name="TEmail" baseType="string" length="80" required="false" />
+
+	<Entity name="ExampleOneToOne">
+		<Attribute name="Id" type="TObjectId" primaryid="true" autoincrement="true" />
+		<Attribute name="Name" type="string" length="64" uniqueid="true" />
+		<Attribute name="Version" type="int" />
+	</Entity>
+
+	<Entity name="ExampleOneToOneEx">
+		<Generator name="GenExampleOneToOneEx" type="sequence" />
+		<Attribute name="Id" type="TObjectId" primaryid="true" generator="GenExampleOneToOneEx" />
+		<Attribute name="ExempleOneToOneId" type="TObjectId" uniqueid="true" />
+		<Attribute name="Caption" type="TCaption" />
+	</Entity>
+	<Relation name="Extension" entity="ExampleOneToOne" name2="ExampleOneToOne" entity2="ExampleOneToOneEx" required="false" cardinality="1:1">
+		<AttributeMatch attribute="Id" attribute2="ExempleOneToOneId" />
+	</Relation>
+
+	<Entity name="ProductType">
+		<Attribute name="Id" type="TObjectId" primaryid="true" autoincrement="true" />
+		<Attribute name="Code" type="string" length="3" uniqueid="true" />
+		<Attribute name="Name" type="TCaption" />
+		<Attribute name="ParentId" type="TObjectId" required="false" persistentName="id_parent" />
+	</Entity>
+	<Relation name="ProductSubtypes" entity="ProductType" name2="Parent" entity2="ProductType" required="false" cardinality="1:M">
+		<AttributeMatch attribute="Id" attribute2="ParentId" />
+	</Relation>
+
+	<Entity name="Product">
+		<Attribute name="Id" type="TObjectId" primaryid="true" autoincrement="true" />
+		<Attribute name="RefCode" type="TProductReference" uniqueid="true" />
+		<Attribute name="Caption" type="TCaption" />
+		<Attribute name="Type" type="ProductType" required="false" />
+	</Entity>
+
+	<Entity name="StoreType">
+		<Attribute name="Id" type="TObjectId" primaryid="true" autoincrement="true" />
+		<Attribute name="Name" type="string" length="3" uniqueid="true" />
+		<Attribute name="Caption" type="TCaption" />
+	</Entity>
+
+	<Entity name="Store">
+		<Attribute name="Id" type="TObjectId" primaryid="true" autoincrement="true" />
+		<Attribute name="Code" type="string" length="15" uniqueid="true" />
+		<Attribute name="Caption" type="TCaption" required="false" />
+		<Attribute name="StoreTypeId" type="TObjectId" required="false" />
+		<EventHandler type="validate" />
+		<EventHandler type="save" />
+		<EventHandler type="delete" />
+		<EventHandler type="flush" />
+		<Operation name="Check" />
+		<Operation name="RecordReceived">
+			<Returns type="boolean" />
+			<Param name="productId" type="TObjectId" />
+			<Param name="qty" type="int" />
+			<Param name="price" type="currency" />
+			<Param name="date" type="datetime" />
+		</Operation>
+		<Operation name="GetQuantity">
+			<Returns type="int" collectionType="array" />
+			<Param name="product" type="TObjectId" collectionType="list" />
+			<Param name="date" type="datetime" />
+		</Operation>
+	</Entity>
+	<Relation name="StoreType" entity="Store" name2="Stores" entity2="StoreType" required="false" cardinality="M:1">
+		<AttributeMatch attribute="StoreTypeId" attribute2="Id" />
+	</Relation>
+
+	<Entity name="Contractor">
+		<Attribute name="Id" type="TObjectId" primaryid="true" autoincrement="true" />
+		<Attribute name="Name" type="TCaption" uniqueid="true" />
+		<Attribute name="Address" type="string" length="255" required="false" />
+		<Attribute name="Phone" type="TPhone" uniqueid="true" />
+		<Attribute name="Email" type="TEmail" />
+	</Entity>
+
+	<Entity name="Partner" supertype="Contractor">
+		<Attribute name="Since" type="datetime" />
+	</Entity>
+
+	<Enumeration name="State">
+		<Item name="InProgress" value="0" />
+		<Item name="Validated" />
+	</Enumeration>
+
+
+	<Entity name="StoreDoc">
+		<Attribute name="Id" type="TObjectId" primaryid="true" autoincrement="true" />
+		<Attribute name="RefNum" type="string" length="16" uniqueid="true" />
+		<Attribute name="Created" type="datetime" default="current" />
+		<Attribute name="Name" type="TCaption" required="false" />
+	</Entity>
+
+	<Entity name="StoreDocLine">
+		<PrimaryId>
+			<Attribute name="StoreDocId" type="TObjectId" />
+			<Attribute name="Position" type="integer" />
+		</PrimaryId>
+		<Attribute name="Product" type="Product" />
+		<Attribute name="Quantity" type="int" required="true" />
+	</Entity>
+	<Relation name="Doc" entity="StoreDocLine" name2="Lines" entity2="StoreDoc" cardinality="M:1" cascade="all">
+		<AttributeMatch attribute="StoreDocId" attribute2="Id" />
+	</Relation>
+
+	<Enumeration name="Direction">
+		<Item name="Income" value="0" />
+		<Item name="Outcome" />
+	</Enumeration>
+
+	<Entity name="StoreTransaction">
+		<Generator name="GenTransaction" type="sequence" />
+		<Attribute name="Id" type="TObjectId" primaryid="true" autoincrement="true" />
+		<Attribute name="TxDate" type="datetime" default="current" />
+		<Attribute name="Direction" type="Direction" />
+		<Attribute name="State" type="State" />
+		<Attribute name="Store" type="Store" />
+		<Attribute name="Product" type="Product" />
+		<Attribute name="SupplierId" type="TObjectId" persistentName="id_supplier" />
+		<Attribute name="Customer" type="Contractor" persistentName="id_customer" />
+		<Attribute name="Quantity" type="int" required="true" />
+	</Entity>
+	<Relation name="Supplier" entity="StoreTransaction" name2="Transactions" entity2="Contractor" cardinality="M:1">
+		<AttributeMatch attribute="SupplierId" attribute2="Id" />
+	</Relation>
+</Model>
+
